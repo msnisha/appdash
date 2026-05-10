@@ -1,0 +1,62 @@
+# appdash Caddyfile
+#
+# Serves the static dashboard on :80. The container is meant to sit behind
+# your existing reverse proxy (Traefik, Caddy, nginx, Cloudflare Tunnel, …),
+# so TLS, auth and external routing are NOT handled here.
+#
+# The optional `handle_path /healthproxy/<id>/*` blocks below let the
+# dashboard health-check internal services without hitting CORS.
+# Uncomment & customise per app.
+
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+:80 {
+	encode gzip zstd
+
+	root * /srv
+
+	# ---- Health-check reverse proxies (opt-in) ----------------------
+	#
+	# Each block matches /healthproxy/<id>/* and forwards to an upstream.
+	# In apps.json, set:
+	#   "health": { "url": "/healthproxy/<id>/<path>", "expect": [200, 401] }
+	#
+	# Examples (uncomment to use):
+	#
+	# handle_path /healthproxy/proxmox/* {
+	# 	reverse_proxy https://192.168.1.2:8006 {
+	# 		transport http {
+	# 			tls
+	# 			tls_insecure_skip_verify
+	# 		}
+	# 	}
+	# }
+	#
+	# handle_path /healthproxy/portainer/* {
+	# 	reverse_proxy https://portainer.example.com
+	# }
+	#
+	# handle_path /healthproxy/traefik/* {
+	# 	reverse_proxy https://traefik.example.com
+	# }
+
+	# ---- Static site ------------------------------------------------
+	handle {
+		try_files {path} /index.html
+		file_server
+		header Cache-Control "public, max-age=300"
+		# Never cache the JSON config — it changes most often.
+		@nocache path *.json
+		header @nocache Cache-Control "no-store"
+	}
+
+	log {
+		output stdout
+		format console
+		level INFO
+	}
+}

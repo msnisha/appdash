@@ -1,0 +1,15 @@
+services:
+  appdash:
+    build: .
+    image: appdash:latest
+    container_name: appdash
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    # If you put this behind Traefik/Caddy on a Docker network, drop the
+    # `ports:` block above and add labels / networks here instead.
+    #
+    # Mount apps.json from host to edit it without rebuilding:
+    # volumes:
+    #   - ./public/apps.json:/srv/apps.json:ro
+    #   - ./Caddyfile:/etc/caddy/Caddyfile:ro

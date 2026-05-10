@@ -1,0 +1,101 @@
+{
+  "title": "My Homelab",
+  "subtitle": "Self-hosted services",
+  "brand": {
+    "gradient": "#14b8a6"
+  },
+  "repoUrl": "https://github.com/msnisha/appdash",
+
+  "categories": [
+    {
+      "id": "infra",
+      "name": "Infrastructure",
+      "description": "Routers, hypervisors, container managers"
+    },
+    {
+      "id": "media",
+      "name": "Media",
+      "description": "Photos, music, video"
+    },
+    {
+      "id": "tools",
+      "name": "Tools"
+    }
+  ],
+
+  "apps": [
+    {
+      "_comment": "An app with TWO URLs — internal IP + public domain.",
+      "id": "proxmox",
+      "name": "Proxmox VE",
+      "category": "infra",
+      "description": "Hypervisor & VM management.",
+      "icon": "🖥️",
+      "color": "#e57000",
+      "urls": [
+        { "label": "Internal", "url": "https://192.168.1.10:8006" },
+        { "label": "Domain",   "url": "https://pve.example.com" }
+      ],
+      "_comment2": "Health check via Caddy reverse-proxy. See Caddyfile.",
+      "health": {
+        "url": "/healthproxy/proxmox/api2/json/version",
+        "expect": [200, 401]
+      }
+    },
+    {
+      "_comment": "Single URL, no health check.",
+      "id": "portainer",
+      "name": "Portainer",
+      "category": "infra",
+      "description": "Docker management.",
+      "icon": "🐳",
+      "color": "#13bef9",
+      "urls": [
+        { "label": "Open", "url": "https://portainer.example.com" }
+      ]
+    },
+    {
+      "_comment": "Direct CORS-enabled health endpoint.",
+      "id": "uptime-kuma",
+      "name": "Uptime Kuma",
+      "category": "tools",
+      "description": "Status page & alerting.",
+      "icon": "📊",
+      "color": "#5cdd8b",
+      "urls": [
+        { "label": "Open", "url": "https://uptime.example.com" }
+      ],
+      "health": {
+        "url": "https://uptime.example.com/api/status-page/heartbeat",
+        "expect": [200]
+      }
+    },
+    {
+      "_comment": "no-cors fallback — only checks reachability, not status.",
+      "id": "immich",
+      "name": "Immich",
+      "category": "media",
+      "description": "Photo & video backup.",
+      "icon": "📸",
+      "color": "#4250af",
+      "urls": [
+        { "label": "Open", "url": "https://photos.example.com" }
+      ],
+      "health": {
+        "url": "https://photos.example.com/api/server-info/ping",
+        "noCors": true
+      }
+    },
+    {
+      "_comment": "Image-based icon instead of emoji.",
+      "id": "jellyfin",
+      "name": "Jellyfin",
+      "category": "media",
+      "description": "Media streaming.",
+      "icon": "img:https://avatars.githubusercontent.com/u/45698031?s=64",
+      "urls": [
+        { "label": "Open", "url": "https://jelly.example.com" }
+      ]
+    }
+  ]
+}

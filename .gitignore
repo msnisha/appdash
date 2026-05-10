@@ -1,0 +1,20 @@
+# Personal config — keep your real app list private.
+public/apps.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local secrets / overrides
+.env
+.env.*
+!.env.example
+docker-compose.override.yml
+
+# Build noise
+node_modules/
+*.log

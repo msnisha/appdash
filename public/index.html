@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A static, JSON-driven dashboard for self-hosted apps." />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-logo" id="brand-logo">
+          <svg viewBox="0 0 64 64" fill="white" aria-hidden="true">
+            <rect x="14" y="14" width="16" height="16" rx="3.5" opacity="0.95"/>
+            <rect x="34" y="14" width="16" height="16" rx="3.5" opacity="0.55"/>
+            <rect x="14" y="34" width="16" height="16" rx="3.5" opacity="0.55"/>
+            <rect x="34" y="34" width="16" height="16" rx="3.5" opacity="0.95"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 id="brand-title">Dashboard</h1>
+          <p id="brand-subtitle">Loading…</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="search-input" type="search" placeholder="Search apps…" autocomplete="off" />
+        </div>
+        <div class="filter" id="category-filter" role="tablist"></div>
+      </div>
+    </header>
+
+    <main id="main"></main>
+
+    <footer class="site-footer">
+      <span id="footer-status">—</span>
+      <span>
+        <a id="repo-link" href="https://github.com/" target="_blank" rel="noopener">View on GitHub</a>
+      </span>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
