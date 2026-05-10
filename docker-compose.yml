@@ -1,6 +1,6 @@
 services:
   appdash:
-    image: msnishanth/adddash:latest
+    image: msnishanth/appdash:latest
     container_name: appdash
     restart: unless-stopped
     ports:

@@ -22,12 +22,12 @@ by Caddy that reads a single `apps.json` file.
 ## Quick start
 
 The image is published on Docker Hub as
-[`msnishanth/adddash`](https://hub.docker.com/r/msnishanth/adddash).
+[`msnishanth/appdash`](https://hub.docker.com/r/msnishanth/appdash).
 
 ### One-liner (no config file)
 
 ```bash
-docker run -d --name appdash -p 8080:80 msnishanth/adddash:latest
+docker run -d --name appdash -p 8080:80 msnishanth/appdash:latest
 ```
 
 Open http://localhost:8080. The container ships with a sample
@@ -47,7 +47,7 @@ docker compose up -d
 # → http://localhost:8080
 ```
 
-The shipped `docker-compose.yml` already pulls `msnishanth/adddash:latest`
+The shipped `docker-compose.yml` already pulls `msnishanth/appdash:latest`
 and bind-mounts `./public/apps.json` read-only, so edits on the host
 appear after a browser refresh — no rebuild needed.
 
@@ -56,7 +56,7 @@ appear after a browser refresh — no rebuild needed.
 ```yaml
 services:
   appdash:
-    image: msnishanth/adddash:latest
+    image: msnishanth/appdash:latest
     container_name: appdash
     restart: unless-stopped
     ports:
@@ -218,7 +218,7 @@ appdash/
 │   └── apps.example.json       # reference config (committed)
 ├── Caddyfile                   # serves /srv on :80, opt-in /healthproxy
 ├── Dockerfile                  # caddy:2-alpine + COPY public /srv
-├── docker-compose.yml          # uses msnishanth/adddash:latest
+├── docker-compose.yml          # uses msnishanth/appdash:latest
 ├── LICENSE                     # MIT
 └── .gitignore                  # ignores public/apps.json
 ```
