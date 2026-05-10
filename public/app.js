@@ -121,7 +121,7 @@
               <span class="count">${apps.length}</span>
               ${cat.description ? `<span class="desc">${escapeHtml(cat.description)}</span>` : ""}
             </div>
-            <div class="grid">${apps.map(renderCard).join("")}</div>
+            ${renderGroups(apps)}
           </section>`;
       })
       .join("");
@@ -133,7 +133,7 @@
         ? ""
         : `<section class="category">
             <div class="category-header"><h2>Other</h2><span class="count">${orphan.length}</span></div>
-            <div class="grid">${orphan.map(renderCard).join("")}</div>
+            ${renderGroups(orphan)}
           </section>`;
 
     main.innerHTML = sections + orphanSection;
@@ -153,6 +153,27 @@
       .map((u) => u.url)
       .join(" ")}`.toLowerCase();
     return hay.includes(state.query);
+  }
+
+  function renderGroups(apps) {
+    // Bucket apps by `group` field, preserving order of first appearance.
+    const order = [];
+    const buckets = new Map();
+    for (const app of apps) {
+      const key = app.group || "";
+      if (!buckets.has(key)) {
+        buckets.set(key, []);
+        order.push(key);
+      }
+      buckets.get(key).push(app);
+    }
+    return order
+      .map((key) => {
+        const list = buckets.get(key);
+        const header = key ? `<div class="group-header">${escapeHtml(key)}</div>` : "";
+        return `${header}<div class="grid">${list.map(renderCard).join("")}</div>`;
+      })
+      .join("");
   }
 
   function renderCard(app) {

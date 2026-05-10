@@ -1,15 +1,19 @@
 services:
   appdash:
-    build: .
-    image: appdash:latest
+    image: msnishanth/adddash:latest
     container_name: appdash
     restart: unless-stopped
     ports:
       - "8080:80"
-    # If you put this behind Traefik/Caddy on a Docker network, drop the
-    # `ports:` block above and add labels / networks here instead.
-    #
-    # Mount apps.json from host to edit it without rebuilding:
-    # volumes:
-    #   - ./public/apps.json:/srv/apps.json:ro
-    #   - ./Caddyfile:/etc/caddy/Caddyfile:ro
+
+    volumes:
+      # Edit apps.json on the host — no rebuild needed.
+      - ./public/apps.json:/srv/apps.json:ro
+
+      # Optional: override the default Caddyfile (e.g. to enable
+      # /healthproxy/* reverse-proxy routes for status checks).
+      # - ./Caddyfile:/etc/caddy/Caddyfile:ro
+
+    # To build from source instead of pulling the published image, comment
+    # out the `image:` line above and uncomment the `build:` line below.
+    # build: .
